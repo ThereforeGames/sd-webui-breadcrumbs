@@ -1,0 +1,79 @@
+:root
+{
+	--stickynav-height: 9em;
+}
+
+gradio-app .main
+{
+	margin-top: var(--stickynav-height);
+}
+
+#stickynav
+{
+	position: fixed;
+	z-index: 1000;
+	top: 0;
+	left: 0;
+	display: block;
+	background-color: var(--background-fill-primary);
+	padding: 10px;
+}
+
+#stickynav ::-webkit-scrollbar
+{
+	width: 10px;
+}
+
+#stickynav ::-webkit-scrollbar-thumb
+{
+	background-color: var(--border-color-primary);
+	border-radius: 10px;
+	border-top: 3px solid var(--background-fill-primary);
+}
+
+#stickynav ::-webkit-scrollbar-thumb:hover
+{
+	background-color: var(--border-color-accent);
+}
+
+#stickynav #quicksettings
+{
+	display: inline-block;
+	width: max-content;
+	white-space: nowrap;
+}
+
+#stickynav #breadcrumbs>section
+{
+	display: inline-block;
+}
+
+#stickynav #quicksettings-wrapper
+{
+	overflow-x: auto;
+}
+
+#quicksettings>div,
+#quicksettings>fieldset
+{
+	display: inline-block;
+}
+
+#img2img_results,
+#txt2img_results,
+#extras_results
+{
+	top: calc(var(--stickynav-height) + 1em);
+}
+
+#breadcrumbs
+{
+	margin-top: 10px;
+	overflow-x: auto;
+	white-space: nowrap;
+}
+
+#breadcrumbs button
+{
+	margin-right: 10px;
+}
