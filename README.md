@@ -1,6 +1,6 @@
 # sd-webui-breadcrumbs
 
-<video src="docs/example.mp4" autoplay loop></video>
+<video src="https://github.com/ThereforeGames/sd-webui-breadcrumbs/blob/main/docs/example.mp4" autoplay loop></video>
 
 
 ## 👋 Introduction
