@@ -1,6 +1,6 @@
 (function()
 {
-	const version = "0.1.0";
+	const version = "0.2.0";
 	console.log(`Loading sd-webui-breadcrumbs v${version}...`);
 
 	// Import jQuery
@@ -45,10 +45,18 @@
 
 	function breadcrumbs_init()
 	{
+		const default_config = {
+			breadcrumbs_show: true,
+			breadcrumbs_focus_panel: true,
+			breadcrumbs_click_behavior: "open",
+			breadcrumbs_collapse_others: true,
+			breadcrumbs_stylize_scrollbars: true,
+		};
+
 		// Parse user settings
 		$.getJSON("file=config.json", function(data)
 		{
-			config = data;
+			config = Object.assign({}, default_config, data);
 			load_html();
 		}).fail(function(jqxhr, textStatus, error)
 		{
@@ -64,91 +72,97 @@
 				$("#stickynav").addClass("stylized-scrollbars");
 			}
 
-			$("#stickynav").append("<section id='breadcrumbs'></section>");
-			// Add a button to jump to the top of the page
-			var top_button = add_breadcrumb("⬆️");
-			top_button.click(function()
+			if (config.breadcrumbs_show)
 			{
-				$("html, body").animate({ scrollTop: 0 }, "fast");
-			});
-			// Add a button to jump to the bottom of the page
-			var bottom_button = add_breadcrumb("⬇️");
-			bottom_button.click(function()
-			{
-				$("html, body").animate({ scrollTop: $(document).height() }, "fast");
-			});
-
-			var tab = "txt2img";
-			for (let i = 0; i < 2; i++) // One for txt2img, one for img2img
-			{
-				$("#stickynav #breadcrumbs").append(`<section id='breadcrumb-${tab}-scripts'></section>`);
-				$(`#${tab}_script_container > .styler .block.gradio-accordion[id]:first-of-type`).each(function()
+				$("#stickynav").append("<section id='breadcrumbs'></section>");
+				// Add a button to jump to the top of the page
+				var top_button = add_breadcrumb("⬆️");
+				top_button.click(function()
 				{
-					var script_header = this;
-					var current_tab = tab;
-					var title = $(this).find("> .label-wrap > span:first-child");
-					var button = add_breadcrumb(title.text(), `#breadcrumb-${tab}-scripts`);
-					var panel_id = $(this).attr("id");
-
-					// Add an event listener to the button for click:
-					button.click(function()
-					{
-						// First, click on any open accordions to close them:
-						$(`#${current_tab}_script_container > .styler .block.gradio-accordion[id]:first-of-type > .label-wrap.open`).each(function()
-						{
-							if ($(this).parent().attr("id") != panel_id)
-							{
-								if (config.breadcrumbs_collapse_others) $(this).click();
-							}
-							else if (config.breadcrumbs_click_behavior == "open")
-							{
-								$(this).click();
-							}
-						});
-
-						// Now, open the selected accordion:
-						if (config.breadcrumbs_click_behavior != "none")
-						{
-							$(script_header).find("> .label-wrap").click();
-						}
-
-						// Finally, scroll to the position of `script_header` + 9em:
-						setTimeout(function()
-						{
-							$("html, body").animate({ scrollTop: $(script_header).offset().top - 9 * parseFloat($("body").css("font-size")) }, "fast");
-						}, 1);
-					});
+					$("html, body").animate({ scrollTop: 0 }, "fast");
+				});
+				// Add a button to jump to the bottom of the page
+				var bottom_button = add_breadcrumb("⬇️");
+				bottom_button.click(function()
+				{
+					$("html, body").animate({ scrollTop: $(document).height() }, "fast");
 				});
 
-				tab = "img2img";
-			}
+				var tab = "txt2img";
+				for (let i = 0; i < 2; i++) // One for txt2img, one for img2img
+				{
+					$("#stickynav #breadcrumbs").append(`<section id='breadcrumb-${tab}-scripts'></section>`);
+					$(`#${tab}_script_container > .styler .block.gradio-accordion[id]:first-of-type`).each(function()
+					{
+						var script_header = this;
+						var current_tab = tab;
+						var title = $(this).find("> .label-wrap > span:first-child");
+						var button = add_breadcrumb(title.text(), `#breadcrumb-${tab}-scripts`);
+						var panel_id = $(this).attr("id");
 
-			// Hide breadcrumbs for the inactive tab:
-			toggle_breadcrumbs();
+						// Add an event listener to the button for click:
+						button.click(function()
+						{
+							// First, click on any open accordions to close them:
+							$(`#${current_tab}_script_container > .styler .block.gradio-accordion[id]:first-of-type > .label-wrap.open`).each(function()
+							{
+								if ($(this).parent().attr("id") != panel_id)
+								{
+									if (config.breadcrumbs_collapse_others) $(this).click();
+								}
+								else if (config.breadcrumbs_click_behavior == "open")
+								{
+									$(this).click();
+								}
+							});
 
-			// TODO: The click event for "#tabs > .tab-nav > button" doesn't seem to fire, possibly due to the way Gradio 3.x tabs are handled.
-			// It feels like this is an overengineered solution for tracking tab changes, but it works.
-			var targetNode = $("#tabs > .tab-nav")[0]; // Using [0] to get the raw DOM element
+							// Now, open the selected accordion:
+							if (config.breadcrumbs_click_behavior != "none")
+							{
+								$(script_header).find("> .label-wrap").click();
+							}
 
-			// Create a MutationObserver instance
-			var observer = new MutationObserver(function(mutations)
-			{
+							// Finally, scroll to the position of `script_header` + 9em:
+							if (config.breadcrumbs_focus_panel)
+							{
+								setTimeout(function()
+								{
+									$("html, body").animate({ scrollTop: $(script_header).offset().top - 9 * parseFloat($("body").css("font-size")) }, "fast");
+								}, 1);
+							}
+						});
+					});
+
+					tab = "img2img";
+				}
+
+				// Hide breadcrumbs for the inactive tab:
 				toggle_breadcrumbs();
-			});
 
-			// Configuration of the MutationObserver
-			var observer_config = {
-				attributes: false,
-				childList: true,
-				subtree: true,
-			};
+				// TODO: The click event for "#tabs > .tab-nav > button" doesn't seem to fire, possibly due to the way Gradio 3.x tabs are handled.
+				// It feels like this is an overengineered solution for tracking tab changes, but it works.
+				var targetNode = $("#tabs > .tab-nav")[0]; // Using [0] to get the raw DOM element
 
-			// Start observing the target node for configured mutations
-			observer.observe(targetNode, observer_config);
+				// Create a MutationObserver instance
+				var observer = new MutationObserver(function(mutations)
+				{
+					toggle_breadcrumbs();
+				});
 
-			// Add a button to visit the GitHub repo
-			var github_button = $(`<a title='Running sd-webui-breadcrumbs v${version} by Therefore Games&#013;Visit us on GitHub!' href='https://github.com/thereforegames/sd-webui-breadcrumbs'><button class='lg secondary gradio-button svelte-cmf5ev'>🍞</button></a>`);
-			$("#stickynav #breadcrumbs").append(github_button);
+				// Configuration of the MutationObserver
+				var observer_config = {
+					attributes: false,
+					childList: true,
+					subtree: true,
+				};
+
+				// Start observing the target node for configured mutations
+				observer.observe(targetNode, observer_config);
+
+				// Add a button to visit the GitHub repo
+				var github_button = $(`<a title='Running sd-webui-breadcrumbs v${version} by Therefore Games&#013;Visit us on GitHub!' href='https://github.com/thereforegames/sd-webui-breadcrumbs'><button class='lg secondary gradio-button svelte-cmf5ev'>🍞</button></a>`);
+				$("#stickynav #breadcrumbs").append(github_button);
+			}
 
 			console.log("Finished.");
 		}
