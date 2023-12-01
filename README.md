@@ -10,6 +10,12 @@ It also improves the usability of Quicksettings by **1)** fixing it to the top o
 
 If you find "menu diving" between extensions to be a tedious experience, **sd-webui-breadcrumbs** is for you.
 
+## 📦 Features
+
+- [x] ⬆️ Top and ⬇️ Bottom buttons for quickly jumping to the top or bottom of the UI
+- [x] Buttons for scrolling to individual extension panels - it also opens the extension's accordion menu for you
+- [x] Tab-aware: the breadcrumb trail will update itself when you switch between txt2img and img2img
+
 ## 🔧 Installation
 
 1. Visit the **Extensions** tab of Automatic's WebUI.
@@ -17,12 +23,11 @@ If you find "menu diving" between extensions to be a tedious experience, **sd-we
 3. Paste this repo's URL into the first field: `https://github.com/ThereforeGames/sd-webui-breadcrumbs`
 4. Click **Install**.
 
-## 📦 Features
+## 📝 Notes
 
-- [x] ⬆️ Top and ⬇️ Bottom buttons for quickly jumping to the top or bottom of the UI
-- [x] Buttons for scrolling to individual extension panels - it also opens the extension's accordion menu for you
-- [x] Tab-aware: the breadcrumb trail will update itself when you switch between txt2img and img2img
+This is a v0.0.1 release and there is certainly room for improvement. Please feel free to open an issue if you have any suggestions. Thank you!
 
----
-
-👉 **Note:** This is a v0.0.1 release and there is certainly room for improvement. Please feel free to open an issue if you have any suggestions. Thank you!
+- Compatible with webkit browsers (Brave, Chrome, probably Edge)
+- Compatible with WebUI dev branch
+- Likely incompatible with custom themes or forks that modify the WebUI's HTML structure
+- Likely incompatible with extensions that modify the Quicksettings HTML structure
