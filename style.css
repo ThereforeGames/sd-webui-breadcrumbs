@@ -19,19 +19,19 @@ gradio-app .main
 	padding: 10px;
 }
 
-#stickynav ::-webkit-scrollbar
+#stickynav.stylized-scrollbars ::-webkit-scrollbar
 {
 	width: 10px;
 }
 
-#stickynav ::-webkit-scrollbar-thumb
+#stickynav.stylized-scrollbars ::-webkit-scrollbar-thumb
 {
 	background-color: var(--border-color-primary);
 	border-radius: 10px;
 	border-top: 3px solid var(--background-fill-primary);
 }
 
-#stickynav ::-webkit-scrollbar-thumb:hover
+#stickynav.stylized-scrollbars ::-webkit-scrollbar-thumb:hover
 {
 	background-color: var(--border-color-accent);
 }

@@ -1,4 +1,6 @@
-# sd-webui-breadcrumbs
+# 🍞 sd-webui-breadcrumbs
+
+<p><strong>Links:</strong> ⏱ <a href="./docs/CHANGELOG.md">Changelog</a></p>
 
 https://github.com/ThereforeGames/sd-webui-breadcrumbs/assets/95403634/f323dd91-3f22-4ba9-8ab7-044b22b40ba5
 
@@ -25,7 +27,9 @@ If you find "menu diving" between extensions to be a tedious experience, **sd-we
 
 ## 📝 Notes
 
-This is a v0.0.1 release and there is certainly room for improvement. Please feel free to open an issue if you have any suggestions. Thank you!
+This is an early release and there is certainly room for improvement. Please feel free to open an issue if you have any suggestions. Thank you!
+
+At the time of writing, this extension is:
 
 - Compatible with webkit browsers (Brave, Chrome, probably Edge)
 - Compatible with WebUI dev branch
