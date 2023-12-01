@@ -1,6 +1,6 @@
 # sd-webui-breadcrumbs
 
-https://github.com/ThereforeGames/sd-webui-breadcrumbs/blob/main/docs/example.mp4
+https://github.com/ThereforeGames/sd-webui-breadcrumbs/assets/95403634/f323dd91-3f22-4ba9-8ab7-044b22b40ba5
 
 ## 👋 Introduction
 
