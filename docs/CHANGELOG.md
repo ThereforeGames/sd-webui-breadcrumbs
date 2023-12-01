@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 0.2.1 - 1 December 2023
+### Removed
+- GitHub button removed per requirements here: https://github.com/AUTOMATIC1111/stable-diffusion-webui-extensions/pull/240
+
 ## 0.2.0 - 1 December 2023
 ### Added
 - New setting `breadcrumbs_show`: Show or hide the breadcrumb trail

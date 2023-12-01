@@ -10,7 +10,7 @@ def on_ui_settings():
 		opt.section = (prefix, "Breadcrumbs")
 		shared.opts.add_option(f"{prefix}_{name}", opt)
 
-	add_option("explanation", shared.OptionHTML("""🍞 The <a href='https://github.com/ThereforeGames/sd-webui-breadcrumbs'>sd-webui-breadcrumbs</a> extension by <a href='https://therefore.games'>Therefore Games</a> adds a breadcrumb trail and makes improvements to the Quicksettings menu. <strong>You must reload the UI upon changing these settings!</strong>"""))
+	add_option("explanation", shared.OptionHTML("""🍞 <a href='https://github.com/ThereforeGames/sd-webui-breadcrumbs'>sd-webui-breadcrumbs</a> v0.2.1 by Therefore Games adds a breadcrumb trail and makes improvements to the Quicksettings menu. <strong>You must reload the UI upon changing these settings!</strong>"""))
 
 	add_option("show", shared.OptionInfo(True, "Show breadcrumbs", gr.Checkbox, {"interactive": True}))
 	add_option("focus_panel", shared.OptionInfo(True, "Focus panel when clicking a breadcrumb", gr.Checkbox, {"interactive": True}))

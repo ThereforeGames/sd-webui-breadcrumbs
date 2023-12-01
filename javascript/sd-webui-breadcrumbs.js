@@ -160,8 +160,8 @@
 				observer.observe(targetNode, observer_config);
 
 				// Add a button to visit the GitHub repo
-				var github_button = $(`<a title='Running sd-webui-breadcrumbs v${version} by Therefore Games&#013;Visit us on GitHub!' href='https://github.com/thereforegames/sd-webui-breadcrumbs'><button class='lg secondary gradio-button svelte-cmf5ev'>🍞</button></a>`);
-				$("#stickynav #breadcrumbs").append(github_button);
+				// Disabled per requirements here: https://github.com/AUTOMATIC1111/stable-diffusion-webui-extensions/pull/240
+				// GitHub button available in versions 0.2.0 and below
 			}
 
 			console.log("Finished.");
