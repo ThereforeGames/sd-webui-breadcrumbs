@@ -1,6 +1,18 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 0.3.0 - 2 December 2023
+### Added
+- New setting `breadcrumbs_screen_placement`: Where to place the quicksettings menu, either top or bottom of the screen
+- New setting `breadcrumbs_animation_duration`: How long it takes for the focus animation to complete, in milliseconds
+- New setting `breadcrumbs_animation_easing`: Name of the easing function to use with the focus animation
+
+### Changed
+- Adapted stylesheet to SASS
+
+### Fixed
+- `breadcrumbs_show`: Reduced vertical padding when breadcrumbs are hidden
+
 ## 0.2.1 - 1 December 2023
 ### Removed
 - GitHub button removed per requirements here: https://github.com/AUTOMATIC1111/stable-diffusion-webui-extensions/pull/240

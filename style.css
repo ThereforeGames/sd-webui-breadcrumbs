@@ -1,79 +1,70 @@
-:root
-{
-	--stickynav-height: 9em;
+:root {
+  --stickynav-height: 9em;
 }
 
-gradio-app .main
-{
-	margin-top: var(--stickynav-height);
+.no-breadcrumbs {
+  --stickynav-height: 5em;
 }
 
-#stickynav
-{
-	position: fixed;
-	z-index: 1000;
-	top: 0;
-	left: 0;
-	display: block;
-	background-color: var(--background-fill-primary);
-	padding: 10px;
+gradio-app .main {
+  margin-top: var(--stickynav-height);
+}
+gradio-app > div.bottom-breadcrumbs .main {
+  margin-top: 0;
+  margin-bottom: var(--stickynav-height);
+}
+gradio-app > div.bottom-breadcrumbs #stickynav {
+  bottom: 0;
+  top: unset;
+}
+gradio-app > div.bottom-breadcrumbs #img2img_results, gradio-app > div.bottom-breadcrumbs #txt2img_results, gradio-app > div.bottom-breadcrumbs #extras_results {
+  top: 0.5em;
 }
 
-#stickynav.stylized-scrollbars ::-webkit-scrollbar
-{
-	width: 10px;
+#stickynav {
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  left: 0;
+  display: block;
+  background-color: var(--background-fill-primary);
+  padding: 10px;
+}
+#stickynav.stylized-scrollbars ::-webkit-scrollbar {
+  width: 10px;
+}
+#stickynav.stylized-scrollbars ::-webkit-scrollbar-thumb {
+  background-color: var(--border-color-primary);
+  border-radius: 10px;
+  border-top: 3px solid var(--background-fill-primary);
+}
+#stickynav.stylized-scrollbars ::-webkit-scrollbar-thumb:hover {
+  background-color: var(--border-color-accent);
+}
+#stickynav #quicksettings-wrapper {
+  overflow-x: auto;
+}
+#stickynav #quicksettings {
+  display: inline-block;
+  width: -moz-max-content;
+  width: max-content;
+  white-space: nowrap;
+}
+#stickynav #quicksettings > div, #stickynav #quicksettings > fieldset {
+  display: inline-block;
+}
+#stickynav #breadcrumbs {
+  margin-top: 10px;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+#stickynav #breadcrumbs button {
+  margin-right: 10px;
+}
+#stickynav #breadcrumbs > section {
+  display: inline-block;
 }
 
-#stickynav.stylized-scrollbars ::-webkit-scrollbar-thumb
-{
-	background-color: var(--border-color-primary);
-	border-radius: 10px;
-	border-top: 3px solid var(--background-fill-primary);
-}
-
-#stickynav.stylized-scrollbars ::-webkit-scrollbar-thumb:hover
-{
-	background-color: var(--border-color-accent);
-}
-
-#stickynav #quicksettings
-{
-	display: inline-block;
-	width: max-content;
-	white-space: nowrap;
-}
-
-#stickynav #breadcrumbs>section
-{
-	display: inline-block;
-}
-
-#stickynav #quicksettings-wrapper
-{
-	overflow-x: auto;
-}
-
-#quicksettings>div,
-#quicksettings>fieldset
-{
-	display: inline-block;
-}
-
-#img2img_results,
-#txt2img_results,
-#extras_results
-{
-	top: calc(var(--stickynav-height) + 1em);
-}
-
-#breadcrumbs
-{
-	margin-top: 10px;
-	overflow-x: auto;
-	white-space: nowrap;
-}
-
-#breadcrumbs button
-{
-	margin-right: 10px;
-}
+#img2img_results, #txt2img_results, #extras_results {
+  top: calc(var(--stickynav-height) + 1em);
+}/*# sourceMappingURL=style.css.map */

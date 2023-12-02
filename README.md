@@ -17,6 +17,7 @@ If you find "menu diving" between extensions to be a tedious experience, **sd-we
 - [x] ⬆️ Top and ⬇️ Bottom buttons for quickly jumping to the top or bottom of the UI
 - [x] Buttons for scrolling to individual extension panels - it also opens the extension's accordion menu for you
 - [x] Tab-aware: the breadcrumb trail will update itself when you switch between txt2img and img2img
+- [x] Customize the appearance and behavior of the breadcrumbs through the WebUI settings page
 
 ## 🔧 Installation
 

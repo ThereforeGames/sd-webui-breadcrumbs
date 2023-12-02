@@ -1,6 +1,6 @@
 (function()
 {
-	const version = "0.2.0";
+	const version = "0.3.0";
 	console.log(`Loading sd-webui-breadcrumbs v${version}...`);
 
 	// Import jQuery
@@ -43,11 +43,19 @@
 		$(`#stickynav #breadcrumbs > section#breadcrumb-${tab}-scripts`).show();
 	}
 
+	function focus_animation(position, element = "html, body")
+	{
+		$(element).animate({ scrollTop: position }, config.breadcrumbs_animation_duration, config.breadcrumbs_animation_easing);
+	}
+
 	function breadcrumbs_init()
 	{
 		const default_config = {
+			breadcrumbs_screen_placement: "top",
 			breadcrumbs_show: true,
 			breadcrumbs_focus_panel: true,
+			breadcrumbs_animation_easing: "swing",
+			breadcrumbs_animation_duration: 200,
 			breadcrumbs_click_behavior: "open",
 			breadcrumbs_collapse_others: true,
 			breadcrumbs_stylize_scrollbars: true,
@@ -71,6 +79,10 @@
 			{
 				$("#stickynav").addClass("stylized-scrollbars");
 			}
+			if (config.breadcrumbs_screen_placement == "bottom")
+			{
+				$("gradio-app > div").addClass("bottom-breadcrumbs");
+			}
 
 			if (config.breadcrumbs_show)
 			{
@@ -79,13 +91,13 @@
 				var top_button = add_breadcrumb("⬆️");
 				top_button.click(function()
 				{
-					$("html, body").animate({ scrollTop: 0 }, "fast");
+					focus_animation(0);
 				});
 				// Add a button to jump to the bottom of the page
 				var bottom_button = add_breadcrumb("⬇️");
 				bottom_button.click(function()
 				{
-					$("html, body").animate({ scrollTop: $(document).height() }, "fast");
+					focus_animation($(document).height());
 				});
 
 				var tab = "txt2img";
@@ -122,12 +134,16 @@
 								$(script_header).find("> .label-wrap").click();
 							}
 
-							// Finally, scroll to the position of `script_header` + 9em:
+							// Finally, scroll to the position of `script_header`
+							var element = $(":root");
+							if (config.breadcrumbs_screen_placement == "bottom") var nav_height = 0;
+							else var nav_height = parseInt(element.css("--stickynav-height"), 10);
+
 							if (config.breadcrumbs_focus_panel)
 							{
 								setTimeout(function()
 								{
-									$("html, body").animate({ scrollTop: $(script_header).offset().top - 9 * parseFloat($("body").css("font-size")) }, "fast");
+									focus_animation($(script_header).offset().top - nav_height * parseFloat($("body").css("font-size")));
 								}, 1);
 							}
 						});
@@ -162,6 +178,10 @@
 				// Add a button to visit the GitHub repo
 				// Disabled per requirements here: https://github.com/AUTOMATIC1111/stable-diffusion-webui-extensions/pull/240
 				// GitHub button available in versions 0.2.0 and below
+			}
+			else
+			{
+				$("gradio-app > div").addClass("no-breadcrumbs");
 			}
 
 			console.log("Finished.");
