@@ -1,9 +1,13 @@
-:root {
+gradio-app > div {
   --stickynav-height: 9em;
 }
 
-.no-breadcrumbs {
+gradio-app > div.no-breadcrumbs {
   --stickynav-height: 5em;
+}
+
+gradio-app > div.small-breadcrumb-style {
+  --stickynav-height: 7em;
 }
 
 gradio-app .main {
@@ -28,7 +32,6 @@ gradio-app > div.bottom-breadcrumbs #img2img_results, gradio-app > div.bottom-br
   left: 0;
   display: block;
   background-color: var(--background-fill-primary);
-  padding: 10px;
 }
 #stickynav.stylized-scrollbars ::-webkit-scrollbar {
   width: 10px;
@@ -58,11 +61,28 @@ gradio-app > div.bottom-breadcrumbs #img2img_results, gradio-app > div.bottom-br
   overflow-x: auto;
   white-space: nowrap;
 }
-#stickynav #breadcrumbs button {
-  margin-right: 10px;
-}
 #stickynav #breadcrumbs > section {
   display: inline-block;
+}
+
+.small-breadcrumb-style #stickynav {
+  padding: 5px;
+}
+.small-breadcrumb-style #stickynav #breadcrumbs {
+  margin-top: 5px;
+}
+.small-breadcrumb-style #stickynav #breadcrumbs button {
+  margin-right: 5px;
+}
+
+.large-breadcrumb-style #stickynav {
+  padding: 10px;
+}
+.large-breadcrumb-style #stickynav #breadcrumbs {
+  margin-top: 10px;
+}
+.large-breadcrumb-style #stickynav #breadcrumbs button {
+  margin-right: 10px;
 }
 
 #img2img_results, #txt2img_results, #extras_results {

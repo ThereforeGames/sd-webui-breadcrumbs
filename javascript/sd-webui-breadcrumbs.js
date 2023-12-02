@@ -1,6 +1,6 @@
 (function()
 {
-	const version = "0.3.0";
+	const version = "0.4.0";
 	console.log(`Loading sd-webui-breadcrumbs v${version}...`);
 
 	// Import jQuery
@@ -15,8 +15,7 @@
 	document.head.appendChild(jquery);
 
 	config = null;
-
-	const button_html = "<button class='lg secondary gradio-button svelte-cmf5ev'></button>";
+	button_html = "";
 
 	// WebUI listeners
 	onUiLoaded(breadcrumbs_init);
@@ -41,6 +40,20 @@
 		$(`#stickynav #breadcrumbs > section:not(#breadcrumb-${tab}-scripts)`).hide();
 		// Show breadcrumbs for the active tab:
 		$(`#stickynav #breadcrumbs > section#breadcrumb-${tab}-scripts`).show();
+
+		// Hide buttons that correspond to hidden panels
+		$(`#stickynav #breadcrumbs > section#breadcrumb-${tab}-scripts button`).each(function()
+		{
+			if ($(`${$(this).attr("element")}`).is(":hidden"))
+			{
+				$(this).hide();
+				debug(`Hiding breadcrumb button for panel #${$(this).attr("element")}`);
+			}
+			else
+			{
+				$(this).show();
+			}
+		});
 	}
 
 	function focus_animation(position, element = "html, body")
@@ -48,10 +61,16 @@
 		$(element).animate({ scrollTop: position }, config.breadcrumbs_animation_duration, config.breadcrumbs_animation_easing);
 	}
 
+	function debug(message)
+	{
+		if (config.breadcrumbs_debug) console.debug(message);
+	}
+
 	function breadcrumbs_init()
 	{
 		const default_config = {
 			breadcrumbs_screen_placement: "top",
+			breadcrumbs_visual_style: "small",
 			breadcrumbs_show: true,
 			breadcrumbs_focus_panel: true,
 			breadcrumbs_animation_easing: "swing",
@@ -59,6 +78,7 @@
 			breadcrumbs_click_behavior: "open",
 			breadcrumbs_collapse_others: true,
 			breadcrumbs_stylize_scrollbars: true,
+			breadcrumbs_debug: false
 		};
 
 		// Parse user settings
@@ -69,7 +89,7 @@
 		}).fail(function(jqxhr, textStatus, error)
 		{
 			var err = textStatus + ", " + error;
-			console.log("Error trying to read `config.json` file: " + err);
+			console.error("Error trying to read `config.json` file: " + err);
 		});
 
 		function load_html()
@@ -86,6 +106,17 @@
 
 			if (config.breadcrumbs_show)
 			{
+				// Initialize visual style
+				$("gradio-app > div").addClass(`${config.breadcrumbs_visual_style}-breadcrumb-style`);
+				if (config.breadcrumbs_visual_style == "small")
+				{
+					button_html = "<button class='sm secondary gradio-button svelte-cmf5ev'></button>";
+				}
+				else if (config.breadcrumbs_visual_style == "large")
+				{
+					button_html = "<button class='lg secondary gradio-button svelte-cmf5ev'></button>";
+				}
+
 				$("#stickynav").append("<section id='breadcrumbs'></section>");
 				// Add a button to jump to the top of the page
 				var top_button = add_breadcrumb("⬆️");
@@ -111,6 +142,7 @@
 						var title = $(this).find("> .label-wrap > span:first-child");
 						var button = add_breadcrumb(title.text(), `#breadcrumb-${tab}-scripts`);
 						var panel_id = $(this).attr("id");
+						button.attr("element", `#tab_${tab} #${panel_id}`);
 
 						// Add an event listener to the button for click:
 						button.click(function()
@@ -135,7 +167,7 @@
 							}
 
 							// Finally, scroll to the position of `script_header`
-							var element = $(":root");
+							var element = $("gradio-app>div");
 							if (config.breadcrumbs_screen_placement == "bottom") var nav_height = 0;
 							else var nav_height = parseInt(element.css("--stickynav-height"), 10);
 
@@ -174,10 +206,6 @@
 
 				// Start observing the target node for configured mutations
 				observer.observe(targetNode, observer_config);
-
-				// Add a button to visit the GitHub repo
-				// Disabled per requirements here: https://github.com/AUTOMATIC1111/stable-diffusion-webui-extensions/pull/240
-				// GitHub button available in versions 0.2.0 and below
 			}
 			else
 			{

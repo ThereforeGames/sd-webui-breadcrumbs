@@ -1,6 +1,15 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 0.4.0 - 2 December 2023
+### Added
+- New setting `breadcrumbs_visual_style`: Whether to render the breadcrumbs as `small` or `large` buttons
+- New setting `breadcrumbs_debug`: Whether to log debug messages to the browser console
+
+### Changed
+- Accordions that are completely hidden on page load or tab switch will no longer be included in the breadcrumb trail
+- The default `breadcrumb_visual_style` is now `small`
+
 ## 0.3.0 - 2 December 2023
 ### Added
 - New setting `breadcrumbs_screen_placement`: Where to place the quicksettings menu, either top or bottom of the screen
