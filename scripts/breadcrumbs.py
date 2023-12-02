@@ -1,28 +1,47 @@
-from modules import shared, script_callbacks
+from modules import shared, script_callbacks, scripts
 import gradio as gr
 
-print("[sd-webui-breadcrumbs] Loading settings UI...")
+base_dir = scripts.basedir()
+
+# Load default settings
+import json
+with open(f"{base_dir}/defaults.json", "r") as f:
+	defaults = json.load(f)
+
+# TODO: Consider replacing print statements with Python logging module if we end up printing a lot of stuff.
+log_prefix = f"[sd-webui-breadcrumbs v{defaults['breadcrumbs_version']}]"
+
+print(f"{log_prefix} Loading settings UI...")
 
 
 def on_ui_settings():
-	def add_option(name, opt):
+	def add_option(name, label, component=None, kwargs={}, info="", opt=shared.OptionInfo):
 		prefix = "breadcrumbs"
+		name = f"{prefix}_{name}"
+		if opt == shared.OptionInfo:
+			opt = opt(defaults[name], label, component, kwargs)
+		else:
+			opt = opt(label)
+		if info:
+			opt.info(info)
 		opt.section = (prefix, "Breadcrumbs")
-		shared.opts.add_option(f"{prefix}_{name}", opt)
+		shared.opts.add_option(name, opt)
 
-	add_option("explanation", shared.OptionHTML("""🍞 <a href='https://github.com/ThereforeGames/sd-webui-breadcrumbs'>sd-webui-breadcrumbs</a> v0.4.0 by Therefore Games adds a breadcrumb trail and makes improvements to the Quicksettings menu. <strong>Due to browser caching, you may need to hard refresh (CTRL+F5) or, in some cases, fully restart the WebUI upon changing these settings!</strong>"""))
-	add_option("screen_placement", shared.OptionInfo("top", "Screen placement", gr.Radio, {"choices": ["top", "bottom"]}))
-	add_option("visual_style", shared.OptionInfo("small", "Breadcrumbs visual style", gr.Radio, {"choices": ["small", "large"]}))
-	add_option("show", shared.OptionInfo(True, "Show breadcrumbs", gr.Checkbox, {"interactive": True}))
-	add_option("focus_panel", shared.OptionInfo(True, "Focus panel when clicking a breadcrumb", gr.Checkbox, {"interactive": True}))
-	add_option("animation_easing", shared.OptionInfo("swing", "Focus animation easing type", gr.Radio, {"choices": ["swing", "linear"]}))
-	add_option("animation_duration", shared.OptionInfo(200, "Focus animation duration in milliseconds", gr.Slider, {"minimum": 0, "maximum": 1000, "step": 10, "interactive": True}).info("Set to 0 for instant focus."))
-	add_option("click_behavior", shared.OptionInfo("open", "Panel behavior when clicking a breadcrumb", gr.Radio, {"choices": ["open", "toggle", "none"]}))
-	add_option("collapse_others", shared.OptionInfo(True, "Collapse other panels when clicking a breadcrumb", gr.Checkbox, {"interactive": True}))
-	add_option("stylize_scrollbars", shared.OptionInfo(True, "Use custom CSS for scrollbars", gr.Checkbox, {"interactive": True}))
-	add_option("debug", shared.OptionInfo(False, "Debug", gr.Checkbox, {"interactive": True}).info("Messages will be logged to the browser console."))
+	add_option("explanation", f"🍞 <a href='https://github.com/ThereforeGames/sd-webui-breadcrumbs'>sd-webui-breadcrumbs</a> v{defaults['breadcrumbs_version']} by Therefore Games adds a breadcrumb trail and makes improvements to the Quicksettings menu. <strong>Due to browser caching, you may need to hard refresh (CTRL+F5) or, in some cases, fully restart the WebUI upon changing these settings!</strong>", opt=shared.OptionHTML)
+	add_option("screen_placement", "Screen placement", gr.Radio, {"choices": ["top", "bottom"]}, "Only works when sticky.")
+	add_option("relative_placement", "Breadcrumbs placement relative to Quicksettings", gr.Radio, {"choices": ["before", "after"]})
+	add_option("visual_style", "Breadcrumbs visual style", gr.Radio, {"choices": ["small", "large"]})
+	add_option("show", "Show breadcrumbs", gr.Checkbox, {"interactive": True})
+	add_option("sticky", "Make it sticky", gr.Checkbox, {"interactive": True})
+	add_option("focus_panel", "Focus panel when clicking a breadcrumb", gr.Checkbox, {"interactive": True})
+	add_option("animation_easing", "Focus animation easing type", gr.Radio, {"choices": ["swing", "linear"]})
+	add_option("animation_duration", "Focus animation duration in milliseconds", gr.Slider, {"minimum": 0, "maximum": 1000, "step": 10, "interactive": True}, "Set to 0 for instant focus.")
+	add_option("click_behavior", "Panel behavior when clicking a breadcrumb", gr.Radio, {"choices": ["open", "toggle", "none"]})
+	add_option("collapse_others", "Collapse other panels when clicking a breadcrumb", gr.Checkbox, {"interactive": True})
+	add_option("stylize_scrollbars", "Use custom CSS for scrollbars", gr.Checkbox, {"interactive": True})
+	add_option("debug", "Debug", gr.Checkbox, {"interactive": True}, "Messages will be logged to the browser console.")
 
 
-print("[sd-webui-breadcrumbs] Finished.")
+print(f"{log_prefix} Finished.")
 
 script_callbacks.on_ui_settings(on_ui_settings)

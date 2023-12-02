@@ -10,6 +10,10 @@ gradio-app > div.small-breadcrumb-style {
   --stickynav-height: 7em;
 }
 
+gradio-app > div:not(.breadcrumbs-sticky) {
+  --stickynav-height: 0;
+}
+
 gradio-app .main {
   margin-top: var(--stickynav-height);
 }
@@ -17,74 +21,79 @@ gradio-app > div.bottom-breadcrumbs .main {
   margin-top: 0;
   margin-bottom: var(--stickynav-height);
 }
-gradio-app > div.bottom-breadcrumbs #stickynav {
+gradio-app > div.bottom-breadcrumbs #breadcrumbs-wrapper {
   bottom: 0;
   top: unset;
 }
 gradio-app > div.bottom-breadcrumbs #img2img_results, gradio-app > div.bottom-breadcrumbs #txt2img_results, gradio-app > div.bottom-breadcrumbs #extras_results {
   top: 0.5em;
 }
-
-#stickynav {
-  position: fixed;
-  z-index: 1000;
-  top: 0;
-  left: 0;
-  display: block;
-  background-color: var(--background-fill-primary);
-}
-#stickynav.stylized-scrollbars ::-webkit-scrollbar {
+gradio-app > div.stylized-scrollbars #breadcrumbs-wrapper ::-webkit-scrollbar {
   width: 10px;
 }
-#stickynav.stylized-scrollbars ::-webkit-scrollbar-thumb {
+gradio-app > div.stylized-scrollbars #breadcrumbs-wrapper ::-webkit-scrollbar-thumb {
   background-color: var(--border-color-primary);
   border-radius: 10px;
   border-top: 3px solid var(--background-fill-primary);
 }
-#stickynav.stylized-scrollbars ::-webkit-scrollbar-thumb:hover {
+gradio-app > div.stylized-scrollbars #breadcrumbs-wrapper ::-webkit-scrollbar-thumb:hover {
   background-color: var(--border-color-accent);
 }
-#stickynav #quicksettings-wrapper {
+
+#breadcrumbs-wrapper {
+  display: block;
+}
+
+gradio-app > div.breadcrumbs-sticky #img2img_results, gradio-app > div.breadcrumbs-sticky #txt2img_results, gradio-app > div.breadcrumbs-sticky #extras_results {
+  top: calc(var(--stickynav-height) + 1em);
+}
+gradio-app > div.breadcrumbs-sticky #breadcrumbs-wrapper {
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  left: 0;
+  background-color: var(--background-fill-primary);
+}
+
+#quicksettings-wrapper {
   overflow-x: auto;
 }
-#stickynav #quicksettings {
+
+#quicksettings {
   display: inline-block;
   width: -moz-max-content;
   width: max-content;
   white-space: nowrap;
 }
-#stickynav #quicksettings > div, #stickynav #quicksettings > fieldset {
+#quicksettings > div, #quicksettings > fieldset {
   display: inline-block;
 }
-#stickynav #breadcrumbs {
+
+#breadcrumbs {
   margin-top: 10px;
   overflow-x: auto;
   white-space: nowrap;
 }
-#stickynav #breadcrumbs > section {
+#breadcrumbs > section {
   display: inline-block;
 }
 
-.small-breadcrumb-style #stickynav {
+.small-breadcrumb-style #breadcrumbs-wrapper {
   padding: 5px;
 }
-.small-breadcrumb-style #stickynav #breadcrumbs {
+.small-breadcrumb-style #breadcrumbs-wrapper #breadcrumbs {
   margin-top: 5px;
 }
-.small-breadcrumb-style #stickynav #breadcrumbs button {
+.small-breadcrumb-style #breadcrumbs-wrapper #breadcrumbs button {
   margin-right: 5px;
 }
 
-.large-breadcrumb-style #stickynav {
+.large-breadcrumb-style #breadcrumbs-wrapper {
   padding: 10px;
 }
-.large-breadcrumb-style #stickynav #breadcrumbs {
+.large-breadcrumb-style #breadcrumbs-wrapper #breadcrumbs {
   margin-top: 10px;
 }
-.large-breadcrumb-style #stickynav #breadcrumbs button {
+.large-breadcrumb-style #breadcrumbs-wrapper #breadcrumbs button {
   margin-right: 10px;
-}
-
-#img2img_results, #txt2img_results, #extras_results {
-  top: calc(var(--stickynav-height) + 1em);
 }/*# sourceMappingURL=style.css.map */

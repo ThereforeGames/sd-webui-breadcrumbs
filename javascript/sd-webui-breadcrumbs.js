@@ -1,8 +1,5 @@
 (function()
 {
-	const version = "0.4.0";
-	console.log(`Loading sd-webui-breadcrumbs v${version}...`);
-
 	// Import jQuery
 	const jquery = document.createElement("script");
 	const current_script = document.currentScript.src;
@@ -15,7 +12,9 @@
 	document.head.appendChild(jquery);
 
 	config = null;
+	default_config = null;
 	button_html = "";
+	container_element = "#breadcrumbs-wrapper";
 
 	// WebUI listeners
 	onUiLoaded(breadcrumbs_init);
@@ -26,7 +25,7 @@
 		return $("#tabs > .tab-nav > button.selected").text().trim();
 	}
 
-	function add_breadcrumb(text, selector = "#stickynav #breadcrumbs")
+	function add_breadcrumb(text, selector = `${container_element} #breadcrumbs`)
 	{
 		let element = $(button_html).text(text);
 		$(selector).append(element);
@@ -37,12 +36,12 @@
 	{
 		let tab = get_webui_tab();
 		// Hide breadcrumbs for the inactive tab:
-		$(`#stickynav #breadcrumbs > section:not(#breadcrumb-${tab}-scripts)`).hide();
+		$(`${container_element} #breadcrumbs > section:not(#breadcrumb-${tab}-scripts)`).hide();
 		// Show breadcrumbs for the active tab:
-		$(`#stickynav #breadcrumbs > section#breadcrumb-${tab}-scripts`).show();
+		$(`${container_element} #breadcrumbs > section#breadcrumb-${tab}-scripts`).show();
 
 		// Hide buttons that correspond to hidden panels
-		$(`#stickynav #breadcrumbs > section#breadcrumb-${tab}-scripts button`).each(function()
+		$(`${container_element} #breadcrumbs > section#breadcrumb-${tab}-scripts button`).each(function()
 		{
 			if ($(`${$(this).attr("element")}`).is(":hidden"))
 			{
@@ -68,36 +67,41 @@
 
 	function breadcrumbs_init()
 	{
-		const default_config = {
-			breadcrumbs_screen_placement: "top",
-			breadcrumbs_visual_style: "small",
-			breadcrumbs_show: true,
-			breadcrumbs_focus_panel: true,
-			breadcrumbs_animation_easing: "swing",
-			breadcrumbs_animation_duration: 200,
-			breadcrumbs_click_behavior: "open",
-			breadcrumbs_collapse_others: true,
-			breadcrumbs_stylize_scrollbars: true,
-			breadcrumbs_debug: false
-		};
-
-		// Parse user settings
-		$.getJSON("file=config.json", function(data)
+		// Load defaults
+		$.getJSON(`${current_folder}/../defaults.json`, function(data)
 		{
-			config = Object.assign({}, default_config, data);
-			load_html();
-		}).fail(function(jqxhr, textStatus, error)
+			default_config = data;
+			console.log(`Loading sd-webui-breadcrumbs v${default_config.breadcrumbs_version}...`);
+
+			// Parse user settings now that the defaults are ready
+			$.getJSON("file=config.json", function(data)
+			{
+				config = Object.assign({}, default_config, data);
+				load_html();
+			}).fail(function(jqxhr, textStatus, error)
+			{
+				var err = textStatus + ", " + error;
+				console.error("Error trying to read `config.json` file: " + err);
+			});
+		}
+		).fail(function(jqxhr, textStatus, error)
 		{
 			var err = textStatus + ", " + error;
-			console.error("Error trying to read `config.json` file: " + err);
+			console.error("Error trying to read `default_config.json` file: " + err);
 		});
 
 		function load_html()
 		{
-			$("#quicksettings").wrap("<section id='stickynav'><section id='quicksettings-wrapper'></section></section>");
+
+			$("#quicksettings").wrap("<section id='breadcrumbs-wrapper'><section id='quicksettings-wrapper'></section></section>");
+			if (config.breadcrumbs_sticky)
+			{
+				$("gradio-app > div").addClass("breadcrumbs-sticky");
+			}
+
 			if (config.breadcrumbs_stylize_scrollbars)
 			{
-				$("#stickynav").addClass("stylized-scrollbars");
+				$("gradio-app > div").addClass("stylized-scrollbars");
 			}
 			if (config.breadcrumbs_screen_placement == "bottom")
 			{
@@ -117,7 +121,8 @@
 					button_html = "<button class='lg secondary gradio-button svelte-cmf5ev'></button>";
 				}
 
-				$("#stickynav").append("<section id='breadcrumbs'></section>");
+				if (config.breadcrumbs_relative_placement == "after") $(container_element).append("<section id='breadcrumbs'></section>");
+				else $(container_element).prepend("<section id='breadcrumbs'></section>");
 				// Add a button to jump to the top of the page
 				var top_button = add_breadcrumb("⬆️");
 				top_button.click(function()
@@ -134,7 +139,7 @@
 				var tab = "txt2img";
 				for (let i = 0; i < 2; i++) // One for txt2img, one for img2img
 				{
-					$("#stickynav #breadcrumbs").append(`<section id='breadcrumb-${tab}-scripts'></section>`);
+					$(`${container_element} #breadcrumbs`).append(`<section id='breadcrumb-${tab}-scripts'></section>`);
 					$(`#${tab}_script_container > .styler .block.gradio-accordion[id]:first-of-type`).each(function()
 					{
 						var script_header = this;
@@ -168,7 +173,7 @@
 
 							// Finally, scroll to the position of `script_header`
 							var element = $("gradio-app>div");
-							if (config.breadcrumbs_screen_placement == "bottom") var nav_height = 0;
+							if (config.breadcrumbs_screen_placement == "bottom" || !config.breadcrumbs_sticky) var nav_height = 0;
 							else var nav_height = parseInt(element.css("--stickynav-height"), 10);
 
 							if (config.breadcrumbs_focus_panel)

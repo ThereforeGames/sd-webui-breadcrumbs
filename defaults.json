@@ -1,0 +1,15 @@
+{
+	"breadcrumbs_version":"0.5.0",
+	"breadcrumbs_screen_placement":"top",
+	"breadcrumbs_relative_placement":"after",
+	"breadcrumbs_visual_style":"small",
+	"breadcrumbs_show":true,
+	"breadcrumbs_sticky":true,
+	"breadcrumbs_focus_panel":true,
+	"breadcrumbs_animation_easing":"swing",
+	"breadcrumbs_animation_duration":200,
+	"breadcrumbs_click_behavior":"open",
+	"breadcrumbs_collapse_others":true,
+	"breadcrumbs_stylize_scrollbars":true,
+	"breadcrumbs_debug":false
+}

@@ -1,6 +1,14 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 0.5.0 - 2 December 2023
+### Added
+- New setting `breadcrumbs_relative_placement`: Whether to place the breadcrumbs before or after the Quicksettings menu
+- New setting `breadcrumbs_sticky`: Whether to fix the breadcrumbs to the screen
+
+### Changed
+- Default settings are now loaded from `defaults.json`
+
 ## 0.4.0 - 2 December 2023
 ### Added
 - New setting `breadcrumbs_visual_style`: Whether to render the breadcrumbs as `small` or `large` buttons
