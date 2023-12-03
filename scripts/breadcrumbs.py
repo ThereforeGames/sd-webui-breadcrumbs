@@ -1,4 +1,4 @@
-from modules import shared, script_callbacks, scripts
+from modules import shared, script_callbacks, scripts, ui_components
 import gradio as gr
 
 base_dir = scripts.basedir()
@@ -27,7 +27,15 @@ def on_ui_settings():
 		opt.section = (prefix, "Breadcrumbs")
 		shared.opts.add_option(name, opt)
 
+	# Load a list of files in the `sd-webui-breadcrumbs/javascript/crumbs` directory.
+	import os
+	crumb_files = ["extensions"]
+	for file in os.listdir(f"{base_dir}/javascript/crumbs"):
+		if file.endswith(".js"):
+			crumb_files.append(file[:-3])
+
 	add_option("explanation", f"🍞 <a href='https://github.com/ThereforeGames/sd-webui-breadcrumbs'>sd-webui-breadcrumbs</a> v{defaults['breadcrumbs_version']} by Therefore Games adds a breadcrumb trail and makes improvements to the Quicksettings menu. <strong>Due to browser caching, you may need to hard refresh (CTRL+F5) or, in some cases, fully restart the WebUI upon changing these settings!</strong>", opt=shared.OptionHTML)
+	add_option("crumb_layout", "Crumb layout", ui_components.DropdownMulti, {"choices": crumb_files}, "Breadcrumb files are located in the `sd-webui-breadcrumbs/javascript/crumbs` directory.")
 	add_option("screen_placement", "Screen placement", gr.Radio, {"choices": ["top", "bottom"]}, "Only works when sticky.")
 	add_option("relative_placement", "Breadcrumbs placement relative to Quicksettings", gr.Radio, {"choices": ["before", "after"]})
 	add_option("visual_style", "Breadcrumbs visual style", gr.Radio, {"choices": ["small", "large"]})

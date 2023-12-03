@@ -1,6 +1,17 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 0.6.0 - 3 December 2023
+### Added
+- New setting `breadcrumbs_crumb_layout`: Breadcrumbs are now loaded as individual modules from the `javascript/crumbs` folder, and you can choose which ones to load as well as their order
+- More debug messages
+- New crumb `github`: Opens the sd-webui-breadcrumbs GitHub repo (this button is disabled by default)
+
+### Fixed
+- Minor improvements to margins and padding
+- Fixed `breadcrumbs_screen_placement` bottom mode
+- Fixed horizontal scrollbar appearing before breadcrumbs are loaded
+
 ## 0.5.0 - 2 December 2023
 ### Added
 - New setting `breadcrumbs_relative_placement`: Whether to place the breadcrumbs before or after the Quicksettings menu

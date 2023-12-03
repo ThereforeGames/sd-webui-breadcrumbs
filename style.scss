@@ -25,27 +25,6 @@ gradio-app
 		margin-top: var(--stickynav-height);
 	}
 
-	&>div.bottom-breadcrumbs
-	{
-		.main
-		{
-			margin-top: 0;
-			margin-bottom: var(--stickynav-height);
-		}
-
-		#breadcrumbs-wrapper
-		{
-			bottom: 0;
-			top: unset;
-		}
-
-
-		#img2img_results, #txt2img_results, #extras_results
-		{
-			top: 0.5em;
-		}
-	}
-
 	&>div.stylized-scrollbars
 	{
 		#breadcrumbs-wrapper
@@ -90,6 +69,27 @@ gradio-app>div.breadcrumbs-sticky
 		left: 0;
 		background-color: var(--background-fill-primary);
 	}
+
+	&.bottom-breadcrumbs
+	{
+		.main
+		{
+			margin-top: 0;
+			margin-bottom: var(--stickynav-height);
+		}
+
+		#breadcrumbs-wrapper
+		{
+			bottom: 0;
+			top: unset;
+		}
+
+
+		#img2img_results, #txt2img_results, #extras_results
+		{
+			top: 0.5em;
+		}
+	}
 }
 
 #quicksettings-wrapper
@@ -97,7 +97,7 @@ gradio-app>div.breadcrumbs-sticky
 	overflow-x: auto;
 }
 
-#quicksettings
+#breadcrumbs-wrapper #quicksettings
 {
 	display: inline-block;
 	width: max-content;
@@ -106,6 +106,13 @@ gradio-app>div.breadcrumbs-sticky
 	&>div, &>fieldset
 	{
 		display: inline-block;
+		margin-right: 6px;
+	}
+
+	button
+	{
+		margin-left: -2px;
+		margin-right: 6px;
 	}
 }
 
@@ -151,6 +158,3 @@ gradio-app>div.breadcrumbs-sticky
 		}
 	}
 }
-
-gradio-app>div:not(.not-sticky)
-{}

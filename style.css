@@ -17,17 +17,6 @@ gradio-app > div:not(.breadcrumbs-sticky) {
 gradio-app .main {
   margin-top: var(--stickynav-height);
 }
-gradio-app > div.bottom-breadcrumbs .main {
-  margin-top: 0;
-  margin-bottom: var(--stickynav-height);
-}
-gradio-app > div.bottom-breadcrumbs #breadcrumbs-wrapper {
-  bottom: 0;
-  top: unset;
-}
-gradio-app > div.bottom-breadcrumbs #img2img_results, gradio-app > div.bottom-breadcrumbs #txt2img_results, gradio-app > div.bottom-breadcrumbs #extras_results {
-  top: 0.5em;
-}
 gradio-app > div.stylized-scrollbars #breadcrumbs-wrapper ::-webkit-scrollbar {
   width: 10px;
 }
@@ -54,19 +43,35 @@ gradio-app > div.breadcrumbs-sticky #breadcrumbs-wrapper {
   left: 0;
   background-color: var(--background-fill-primary);
 }
+gradio-app > div.breadcrumbs-sticky.bottom-breadcrumbs .main {
+  margin-top: 0;
+  margin-bottom: var(--stickynav-height);
+}
+gradio-app > div.breadcrumbs-sticky.bottom-breadcrumbs #breadcrumbs-wrapper {
+  bottom: 0;
+  top: unset;
+}
+gradio-app > div.breadcrumbs-sticky.bottom-breadcrumbs #img2img_results, gradio-app > div.breadcrumbs-sticky.bottom-breadcrumbs #txt2img_results, gradio-app > div.breadcrumbs-sticky.bottom-breadcrumbs #extras_results {
+  top: 0.5em;
+}
 
 #quicksettings-wrapper {
   overflow-x: auto;
 }
 
-#quicksettings {
+#breadcrumbs-wrapper #quicksettings {
   display: inline-block;
   width: -moz-max-content;
   width: max-content;
   white-space: nowrap;
 }
-#quicksettings > div, #quicksettings > fieldset {
+#breadcrumbs-wrapper #quicksettings > div, #breadcrumbs-wrapper #quicksettings > fieldset {
   display: inline-block;
+  margin-right: 6px;
+}
+#breadcrumbs-wrapper #quicksettings button {
+  margin-left: -2px;
+  margin-right: 6px;
 }
 
 #breadcrumbs {
