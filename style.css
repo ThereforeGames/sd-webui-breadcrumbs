@@ -34,7 +34,7 @@ gradio-app > div.stylized-scrollbars #breadcrumbs-wrapper ::-webkit-scrollbar-th
 }
 
 gradio-app > div.breadcrumbs-sticky #img2img_results, gradio-app > div.breadcrumbs-sticky #txt2img_results, gradio-app > div.breadcrumbs-sticky #extras_results {
-  top: calc(var(--stickynav-height) + 1em);
+  top: calc(var(--stickynav-height) + 1.7em);
 }
 gradio-app > div.breadcrumbs-sticky #breadcrumbs-wrapper {
   position: fixed;

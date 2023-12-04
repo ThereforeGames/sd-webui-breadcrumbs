@@ -15,6 +15,7 @@
 	default_config = null;
 	button_html = "";
 	container_element = "#breadcrumbs-wrapper";
+	main_app_element = "gradio-app > div";
 
 	// WebUI listeners
 	onUiLoaded(breadcrumbs_init);
@@ -25,35 +26,38 @@
 		return $("#tabs > .tab-nav > button.selected").text().trim();
 	}
 
-	function add_breadcrumb(text, index = -1, selector = `${container_element} #breadcrumbs`)
+	function add_breadcrumb(text, index = -1, selector = `${container_element} #breadcrumbs`, tab_attr = null)
 	{
 		debug((`Adding breadcrumb: ${text} to ${selector} at position ${index}`));
 		let element = $(button_html).text(text);
 		insert_at(selector, index, element);
+		if (index > -1) element.attr("position", index);
+		if (tab_attr) element.attr("data-tab", tab_attr);
 		return element;
 	}
 
 	function toggle_breadcrumbs()
 	{
 		let tab = get_webui_tab();
-		// Hide breadcrumbs for the inactive tab:
-		$(`${container_element} #breadcrumbs .extensions-wrapper > section:not(#breadcrumb-${tab}-scripts)`).hide();
-		// Show breadcrumbs for the active tab:
-		$(`${container_element} #breadcrumbs .extensions-wrapper > section#breadcrumb-${tab}-scripts`).show();
-
-		// Hide buttons that correspond to hidden panels
-		$(`${container_element} #breadcrumbs .extensions-wrapper > section#breadcrumb-${tab}-scripts button`).each(function()
+		// Show breadcrumbs for the active tab, as well as breadcrumbs without a data-tab attr:
+		$(`${container_element} #breadcrumbs > *[data-tab=${tab}], ${container_element} #breadcrumbs > *:not([data-tab]), ${container_element} #breadcrumbs > section > *[data-tab=${tab}], ${container_element} #breadcrumbs > section > *:not([data-tab])`).show().each(function()
 		{
-			if ($(`${$(this).attr("element")}`).is(":hidden"))
+			// Select descendent button elements with an `element` attr:
+			$(this).find("button[element]").each(function()
 			{
-				$(this).hide();
-				debug(`Hiding breadcrumb button for panel #${$(this).attr("element")}`);
-			}
-			else
-			{
-				$(this).show();
-			}
+				if ($(`${$(this).attr("element")}`).is(":hidden"))
+				{
+					$(this).hide();
+					debug(`Hiding breadcrumb button for panel #${$(this).attr("element")}`);
+				}
+				else
+				{
+					$(this).show();
+				}
+			});
 		});
+		// Hide breadcrumbs for the inactive tab:
+		$(`${container_element} #breadcrumbs > *[data-tab]:not([data-tab=${tab}]) *, ${container_element} #breadcrumbs > section > *[data-tab]:not([data-tab=${tab}])`).hide();
 	}
 
 	// Global values, available in external modules
@@ -116,21 +120,21 @@
 			$("#quicksettings").wrap("<section id='breadcrumbs-wrapper'><section id='quicksettings-wrapper'></section></section>");
 			if (config.breadcrumbs_sticky)
 			{
-				$("gradio-app > div").addClass("breadcrumbs-sticky");
+				$(main_app_element).addClass("breadcrumbs-sticky");
 			}
 			if (config.breadcrumbs_stylize_scrollbars)
 			{
-				$("gradio-app > div").addClass("stylized-scrollbars");
+				$(main_app_element).addClass("stylized-scrollbars");
 			}
 			if (config.breadcrumbs_screen_placement == "bottom")
 			{
-				$("gradio-app > div").addClass("bottom-breadcrumbs");
+				$(main_app_element).addClass("bottom-breadcrumbs");
 			}
 
 			if (config.breadcrumbs_show)
 			{
 				// Initialize visual style
-				$("gradio-app > div").addClass(`${config.breadcrumbs_visual_style}-breadcrumb-style`);
+				$(main_app_element).addClass(`${config.breadcrumbs_visual_style}-breadcrumb-style`);
 				if (config.breadcrumbs_visual_style == "small")
 				{
 					button_html = "<button class='sm secondary gradio-button svelte-cmf5ev'></button>";
@@ -159,17 +163,18 @@
 						// Append the wrapper to the breadcrumbs container
 						insert_at(`${container_element} #breadcrumbs`, index, extensions_wrapper);
 
-						var tab = "txt2img";
-						for (let i = 0; i < 2; i++) // One for txt2img, one for img2img
+						var tabs = ["txt2img", "img2img"];
+						for (let tab of tabs)
 						{
-							$(".extensions-wrapper").append(`<section id='breadcrumb-${tab}-scripts'></section>`);
+							var tab_section = $(`<section id='breadcrumbs-${tab}-scripts' data-tab='${tab}'></section>`);
+							$(".extensions-wrapper").append(tab_section);
 
 							$(`#${tab}_script_container > .styler .block.gradio-accordion[id]:first-of-type`).each(function()
 							{
 								var script_header = this;
 								var current_tab = tab;
 								var title = $(this).find("> .label-wrap > span:first-child");
-								var button = add_breadcrumb(title.text(), -1, `#breadcrumb-${tab}-scripts`);
+								var button = add_breadcrumb(title.text(), -1, `#breadcrumbs-${tab}-scripts`);
 								var panel_id = $(this).attr("id");
 								button.attr("element", `#tab_${tab} #${panel_id}`);
 
@@ -196,7 +201,7 @@
 									}
 
 									// Finally, scroll to the position of `script_header`
-									var element = $("gradio-app>div");
+									var element = $(main_app_element);
 									if (config.breadcrumbs_screen_placement == "bottom" || !config.breadcrumbs_sticky) var nav_height = 0;
 									else var nav_height = parseInt(element.css("--stickynav-height"), 10);
 
@@ -209,8 +214,6 @@
 									}
 								});
 							});
-
-							tab = "img2img";
 						}
 
 						deferred.resolve();
@@ -222,9 +225,22 @@
 						{
 							debug(`Loaded ${value}`);
 							// Add a button for each crumb
-							var crumb = add_breadcrumb(module.crumb_title, index);
-							crumb.attr("position", index);
-							crumb.click(module.ev_click);
+							var crumb_type = module.crumb_type ? module.crumb_type : "button";
+							if (crumb_type == "button")
+							{
+								var crumb = add_breadcrumb(module.crumb_title, index);
+								crumb.click(module.ev_click);
+							}
+							else
+							{
+								module.$crumb.attr("position", index);
+
+								// Fix the visual style of the crumb
+								if (config.breadcrumbs_visual_style == "small")
+								{
+									module.$crumb.find("button.lg").removeClass("lg").addClass("sm");
+								}
+							}
 							deferred.resolve();
 						}).catch(function(exception)
 						{
@@ -252,6 +268,7 @@
 					// Append the sorted breadcrumb elements back to the DOM
 					$breadcrumbs.appendTo(`${container_element} #breadcrumbs`);
 
+					toggle_breadcrumbs();
 				});
 
 				// Hide breadcrumbs for the inactive tab:
@@ -279,7 +296,7 @@
 			}
 			else
 			{
-				$("gradio-app > div").addClass("no-breadcrumbs");
+				$(main_app_element).addClass("no-breadcrumbs");
 			}
 
 			console.log("Finished.");

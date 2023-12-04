@@ -58,7 +58,7 @@ gradio-app>div.breadcrumbs-sticky
 {
 	#img2img_results, #txt2img_results, #extras_results
 	{
-		top: calc(var(--stickynav-height) + 1em);
+		top: calc(var(--stickynav-height) + 1.7em);
 	}
 
 	#breadcrumbs-wrapper

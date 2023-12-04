@@ -1,6 +1,15 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 0.7.0 - 4 December 2023
+### Added
+- New crumb `generate`: Moves the WebUI's "Generate" button to the breadcrumb trail
+- Improved robustness of `toggle_breadcrumbs()` method: any crumb can now specify a `data-tab` attribute to only show up on a certain tab
+
+### Changed
+- Adjusted padding around output panel for better visibility
+- General code cleanup
+
 ## 0.6.1 - 3 December 2023
 ### Fixed
 - Fixed `extensions` crumb not adhering to its given position

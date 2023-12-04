@@ -1,5 +1,5 @@
 {
-	"breadcrumbs_version":"0.6.1",
+	"breadcrumbs_version":"0.7.0",
 	"breadcrumbs_crumb_layout":["top","bottom","extensions"],
 	"breadcrumbs_screen_placement":"top",
 	"breadcrumbs_relative_placement":"after",
