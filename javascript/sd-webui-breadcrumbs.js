@@ -155,7 +155,7 @@
 					if (value == "extensions")
 					{
 						debug("Loading hardcoded `extensions` crumb...");
-						var extensions_wrapper = "<section class='extensions-wrapper'></section>";
+						var extensions_wrapper = `<section class='extensions-wrapper' position=${index}></section>`;
 						// Append the wrapper to the breadcrumbs container
 						insert_at(`${container_element} #breadcrumbs`, index, extensions_wrapper);
 
@@ -238,7 +238,6 @@
 				{
 					debug("Done async loading crumbs.");
 
-					// Iterate through the crumbs and ensure they're in the correct order based on their `position` attribute
 					var $breadcrumbs = $(`${container_element} #breadcrumbs > *`);
 
 					// Sort the elements based on the `position` attribute

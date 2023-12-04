@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 0.6.1 - 3 December 2023
+### Fixed
+- Fixed `extensions` crumb not adhering to its given position
+
 ## 0.6.0 - 3 December 2023
 ### Added
 - New setting `breadcrumbs_crumb_layout`: Breadcrumbs are now loaded as individual modules from the `javascript/crumbs` folder, and you can choose which ones to load as well as their order
