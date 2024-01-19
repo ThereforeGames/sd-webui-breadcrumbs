@@ -74,31 +74,38 @@ gradio-app > div.breadcrumbs-sticky.bottom-breadcrumbs #img2img_results, gradio-
   margin-right: 6px;
 }
 
-#breadcrumbs {
+#breadcrumbs, #favorite-crumbs {
   margin-top: 10px;
   overflow-x: auto;
   white-space: nowrap;
 }
-#breadcrumbs > section {
+#breadcrumbs > section, #favorite-crumbs > section {
   display: inline-block;
+}
+
+#favorite-crumbs {
+  float: right;
+}
+#favorite-crumbs .generate-wrapper {
+  text-align: right;
 }
 
 .small-breadcrumb-style #breadcrumbs-wrapper {
   padding: 5px;
 }
-.small-breadcrumb-style #breadcrumbs-wrapper #breadcrumbs {
+.small-breadcrumb-style #breadcrumbs-wrapper #breadcrumbs, .small-breadcrumb-style #breadcrumbs-wrapper #favorite-crumbs {
   margin-top: 5px;
 }
-.small-breadcrumb-style #breadcrumbs-wrapper #breadcrumbs button {
+.small-breadcrumb-style #breadcrumbs-wrapper #breadcrumbs button, .small-breadcrumb-style #breadcrumbs-wrapper #favorite-crumbs button {
   margin-right: 5px;
 }
 
 .large-breadcrumb-style #breadcrumbs-wrapper {
   padding: 10px;
 }
-.large-breadcrumb-style #breadcrumbs-wrapper #breadcrumbs {
+.large-breadcrumb-style #breadcrumbs-wrapper #breadcrumbs, .large-breadcrumb-style #breadcrumbs-wrapper #favorite-crumbs {
   margin-top: 10px;
 }
-.large-breadcrumb-style #breadcrumbs-wrapper #breadcrumbs button {
+.large-breadcrumb-style #breadcrumbs-wrapper #breadcrumbs button, .large-breadcrumb-style #breadcrumbs-wrapper #favorite-crumbs button {
   margin-right: 10px;
 }/*# sourceMappingURL=style.css.map */

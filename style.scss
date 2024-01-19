@@ -116,7 +116,7 @@ gradio-app>div.breadcrumbs-sticky
 	}
 }
 
-#breadcrumbs
+#breadcrumbs, #favorite-crumbs
 {
 	margin-top: 10px;
 	overflow-x: auto;
@@ -128,12 +128,21 @@ gradio-app>div.breadcrumbs-sticky
 	}
 }
 
+#favorite-crumbs
+{
+	float: right;
+
+	.generate-wrapper
+	{
+		text-align: right;
+	}
+}
 
 .small-breadcrumb-style #breadcrumbs-wrapper
 {
 	padding: 5px;
 
-	#breadcrumbs
+	#breadcrumbs, #favorite-crumbs
 	{
 		margin-top: 5px;
 
@@ -148,7 +157,7 @@ gradio-app>div.breadcrumbs-sticky
 {
 	padding: 10px;
 
-	#breadcrumbs
+	#breadcrumbs, #favorite-crumbs
 	{
 		margin-top: 10px;
 

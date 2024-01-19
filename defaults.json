@@ -1,6 +1,7 @@
 {
-	"breadcrumbs_version":"0.7.0",
+	"breadcrumbs_version":"0.8.0",
 	"breadcrumbs_crumb_layout":["top","bottom","extensions"],
+	"breadcrumbs_favorite_crumbs":[],
 	"breadcrumbs_screen_placement":"top",
 	"breadcrumbs_relative_placement":"after",
 	"breadcrumbs_visual_style":"small",

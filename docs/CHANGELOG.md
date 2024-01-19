@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 0.8.0 - 19 January 2024
+### Added
+- New setting `breadcrumbs_favorite_crumbs`: Pin your favorite crumbs to the side of the breadcrumb trail
+- New crumb `random_seed`: Moves the WebUI's "Random Seed" button to the breadcrumb trail
+- New crumb `reuse_seed`: Moves the WebUI's "Reuse Seed" button to the breadcrumb trail
+
 ## 0.7.0 - 4 December 2023
 ### Added
 - New crumb `generate`: Moves the WebUI's "Generate" button to the breadcrumb trail
